@@ -1,0 +1,117 @@
+{
+  "index": {
+    "title": "Home",
+    "sections": [
+      {
+        "id": "index-section-1",
+        "label": "Hero",
+        "html": "<section class=\"hero\"><div class=\"container hero-grid\"><div><span class=\"kicker\">Trinidad and Tobago Construction Partner</span><h1>Building Strong Foundations. Delivering Reliable Solutions.</h1><p>M.J.CO Limited provides professional general construction, civil works, maintenance, fabrication, roofing, renovation, and project support services across Trinidad and Tobago.</p><p>From foundation to finish, we deliver dependable solutions for homes, businesses, warehouses, factories, and industrial facilities with strong focus on safety, quality, and cost control.</p><div style=\"display:flex; gap:10px; flex-wrap:wrap; margin-top:16px;\"><a class=\"btn btn-primary\" href=\"request-quote.html\">Request a Quote</a><a class=\"btn btn-outline\" href=\"services.html\">View Our Services</a><a class=\"btn btn-outline\" href=\"projects.html\">See Our Projects</a><a class=\"btn btn-outline\" href=\"contact.html\">Contact M.J.CO Limited</a></div></div><aside class=\"hero-card\"><h3>Trusted. Practical. Professional.</h3><p>Quality work, safe execution, and reliable results for residential, commercial, and industrial clients.</p><div class=\"hero-stats\"><div class=\"stat\"><strong>Construction</strong> General building from groundwork to finishing.</div><div class=\"stat\"><strong>Maintenance</strong> Planned and emergency maintenance support.</div><div class=\"stat\"><strong>Civil Works</strong> Drains, beams, slabs, ramps, trenching.</div><div class=\"stat\"><strong>Fabrication</strong> Steel solutions, gates, stairs, and platforms.</div></div></aside></div></section>"
+      },
+      {
+        "id": "index-section-2",
+        "label": "Why Choose Us",
+        "html": "<section class=\"section\"><div class=\"container\"><div class=\"section-head\"><h2>Why Choose M.J.CO Limited</h2></div><div class=\"grid-3\"><article class=\"card reveal\"><h3>Proven Capability</h3><ul class=\"clean\"><li>Experienced in residential, commercial, and industrial construction.</li><li>Capable of working in live industrial and commercial environments.</li><li>Reliable project supervision and hands-on management.</li></ul></article><article class=\"card reveal\"><h3>Technical Breadth</h3><ul class=\"clean\"><li>Skilled in civil works, renovations, roofing, welding, plumbing, and maintenance.</li><li>Professional quotations, BOQs, method statements, JSAs, and risk assessments.</li><li>Strong focus on safety, housekeeping, and client operations.</li></ul></article><article class=\"card reveal\"><h3>Value and Reliability</h3><ul class=\"clean\"><li>Competitive pricing without compromising quality.</li><li>Clear communication and practical, durable outcomes.</li><li>Long-term client support from first visit to project closeout.</li></ul></article></div></div></section>"
+      },
+      {
+        "id": "index-section-3",
+        "label": "Industries & Call To Action",
+        "html": "<section class=\"section\"><div class=\"container\"><div class=\"section-head\"><h2>Industries We Serve</h2></div><div class=\"pill-list\"><span class=\"pill\">Residential Homeowners</span><span class=\"pill\">Commercial Businesses</span><span class=\"pill\">Warehouses</span><span class=\"pill\">Manufacturing Facilities</span><span class=\"pill\">Food and Beverage Plants</span><span class=\"pill\">Schools and Institutions</span><span class=\"pill\">Churches and Community Organizations</span><span class=\"pill\">Property Owners and Developers</span></div><div class=\"cta-band\"><div><h3>Need a reliable contractor for your next project?</h3><p>Contact M.J.CO Limited today for a site visit, quotation, or project consultation.</p></div><a class=\"btn btn-primary\" href=\"contact.html\">Speak With Our Team</a></div></div></section>"
+      }
+    ]
+  },
+  "about": {
+    "title": "About Us",
+    "sections": [
+      {
+        "id": "about-section-1",
+        "label": "About Intro",
+        "html": "<section class=\"page-hero\"><div class=\"container\"><span class=\"kicker\">About M.J.CO Limited</span><h1>Built on Reliability, Quality Workmanship, and Long-Term Relationships</h1><p>M.J.CO Limited is a Trinidad and Tobago based construction and maintenance company committed to delivering strong, practical, and cost-effective solutions. We believe in doing work properly, safely, and professionally.</p></div></section>"
+      },
+      {
+        "id": "about-section-2",
+        "label": "Who We Are and How We Work",
+        "html": "<section class=\"section\"><div class=\"container grid-2\"><article class=\"card reveal\"><h2>Who We Are</h2><p>Our team combines skilled workmanship with practical field experience across homes, commercial spaces, warehouses, and industrial facilities.</p><p>We take pride in helping clients complete projects that are safe, durable, clean, and built to last.</p></article><article class=\"card reveal\"><h2>How We Work</h2><ul class=\"clean\"><li>Clear site visits, scope review, and practical recommendations.</li><li>Professional quotation support including BOQs where required.</li><li>Hands-on supervision, schedule management, and safe execution.</li><li>Strong closeout standards with quality checks and housekeeping.</li></ul></article></div></section>"
+      },
+      {
+        "id": "about-section-3",
+        "label": "Taglines",
+        "html": "<section class=\"section\"><div class=\"container card\"><h2>Suggested Taglines</h2><div class=\"pill-list\"><span class=\"pill\">Quality Work. Safe Execution. Reliable Results.</span><span class=\"pill\">From Foundation to Finish - M.J.CO Limited Delivers.</span><span class=\"pill\">Construction, Maintenance & Civil Solutions You Can Trust.</span></div></div></section>"
+      }
+    ]
+  },
+  "services": {
+    "title": "Services",
+    "sections": [
+      {
+        "id": "services-section-1",
+        "label": "Services Intro",
+        "html": "<section class=\"page-hero\"><div class=\"container\"><span class=\"kicker\">Our Services</span><h1>Construction and Maintenance Services You Can Trust</h1><p>M.J.CO Limited handles complete construction, civil, maintenance, and fabrication scopes with practical planning and reliable execution.</p></div></section>"
+      },
+      {
+        "id": "services-section-2",
+        "label": "Service List",
+        "html": "<section class=\"section\"><div class=\"container grid-3\"><article class=\"card reveal\"><h3>General Construction</h3><p>Complete construction from groundwork to finishing, including foundations, columns, beams, slabs, block work, plastering, painting, flooring, and general building works.</p></article><article class=\"card reveal\"><h3>Civil Works</h3><p>Concrete works, drains, box drains, ground beams, slabs, ramps, trenching, excavation, repairs, and structural upgrades.</p></article><article class=\"card reveal\"><h3>Renovation & Remodeling</h3><p>Office renovations, warehouse upgrades, partitions, ceilings, flooring, doors, windows, painting, and complete space transformation.</p></article><article class=\"card reveal\"><h3>Roofing & Structural Repairs</h3><p>Roof repairs, roof installation, purlin replacement, flashing, guttering, leak repairs, shed repairs, and roof support works.</p></article><article class=\"card reveal\"><h3>Welding & Fabrication</h3><p>Gates, steel doors, platforms, staircases, handrails, steel frames, mezzanine structures, security works, and custom metal solutions.</p></article><article class=\"card reveal\"><h3>Property Maintenance</h3><p>Planned and emergency maintenance services for commercial, residential, and industrial properties to keep facilities safe and functional.</p></article><article class=\"card reveal\"><h3>Plumbing & Drainage</h3><p>Plumbing repairs, water line rerouting, drainage solutions, backflow support, pipe installations, and related civil repairs.</p></article><article class=\"card reveal\"><h3>HSE & Project Support</h3><p>Job safety analyses, risk assessments, method statements, work planning, and safe execution procedures for commercial and industrial projects.</p></article></div></section>"
+      }
+    ]
+  },
+  "projects": {
+    "title": "Projects / Gallery",
+    "sections": [
+      {
+        "id": "projects-section-1",
+        "label": "Projects Intro",
+        "html": "<section class=\"page-hero\"><div class=\"container\"><span class=\"kicker\">Projects and Gallery</span><h1>Examples of Our Typical Project Scopes</h1><p>This draft gallery highlights the type of works M.J.CO Limited delivers across residential, commercial, warehouse, and industrial spaces.</p></div></section>"
+      },
+      {
+        "id": "projects-section-2",
+        "label": "Gallery and Call To Action",
+        "html": "<section class=\"section\"><div class=\"container gallery\"><article class=\"card reveal\"><h3>Warehouse Roof Rehabilitation</h3><p>Purlin replacement, leak sealing, and flashing upgrade in a live operating facility.</p></article><article class=\"card reveal\"><h3>Office Renovation Package</h3><p>Partitions, ceilings, flooring, painting, and door replacements for improved workflow.</p></article><article class=\"card reveal\"><h3>Industrial Civil Upgrades</h3><p>Drainage correction, trenching, slab repairs, and concrete access ramp installation.</p></article><article class=\"card reveal\"><h3>Custom Steel Fabrication</h3><p>Handrails, platforms, and security gates fabricated and installed to specification.</p></article><article class=\"card reveal\"><h3>Residential Structural Repairs</h3><p>Targeted structural corrections and finishing works for long-term durability.</p></article><article class=\"card reveal\"><h3>Facility Maintenance Program</h3><p>Scheduled and emergency maintenance support for commercial and industrial clients.</p></article></div><div class=\"cta-band\"><div><h3>Want your project featured here next?</h3><p>Request a site visit and we can plan your scope, timeline, and budget.</p></div><a class=\"btn btn-primary\" href=\"request-quote.html\">Start Your Quote</a></div></section>"
+      }
+    ]
+  },
+  "safety-quality": {
+    "title": "Safety & Quality",
+    "sections": [
+      {
+        "id": "safety-quality-section-1",
+        "label": "Safety Intro",
+        "html": "<section class=\"page-hero\"><div class=\"container\"><span class=\"kicker\">Safety and Quality</span><h1>Safe Execution and Quality Work Are Core to Every Job</h1><p>M.J.CO Limited places strong emphasis on site safety, operational awareness, quality standards, and disciplined housekeeping, especially in active commercial and industrial environments.</p></div></section>"
+      },
+      {
+        "id": "safety-quality-section-2",
+        "label": "HSE and Quality Details",
+        "html": "<section class=\"section\"><div class=\"container grid-2\"><article class=\"card reveal\"><h2>HSE Support</h2><ul class=\"clean\"><li>Job Safety Analysis (JSA) support for task-specific hazards.</li><li>Risk assessments to identify and manage critical exposure.</li><li>Method statements for planned and controlled execution.</li><li>Clear work planning for coordination with client operations.</li></ul></article><article class=\"card reveal\"><h2>Quality Delivery</h2><ul class=\"clean\"><li>Practical construction methods tailored to each site.</li><li>Close supervision and workmanship checks throughout execution.</li><li>Durable materials and fit-for-purpose construction details.</li><li>Clean, organized handover standards at completion.</li></ul></article></div></section>"
+      }
+    ]
+  },
+  "request-quote": {
+    "title": "Request a Quote",
+    "sections": [
+      {
+        "id": "request-quote-section-1",
+        "label": "Quote Intro",
+        "html": "<section class=\"page-hero\"><div class=\"container\"><span class=\"kicker\">Request a Quote</span><h1>Tell Us About Your Project</h1><p>Share your project scope and we will arrange a site visit, provide recommendations, and prepare a professional quotation.</p></div></section>"
+      },
+      {
+        "id": "request-quote-section-2",
+        "label": "Quote Form and Support",
+        "html": "<section class=\"section\"><div class=\"container grid-2\"><article class=\"card\"><h2>Quote Request Form</h2><form class=\"form\" action=\"mailto:mjcolimited765@gmail.com\" method=\"post\" enctype=\"text/plain\"><label>Full Name<input type=\"text\" name=\"fullName\" required></label><label>Company (Optional)<input type=\"text\" name=\"company\"></label><label>Phone Number<input type=\"tel\" name=\"phone\" required></label><label>Email Address<input type=\"email\" name=\"email\" required></label><label>Service Needed<select name=\"service\" required><option value=\"\">Select one</option><option>General Construction</option><option>Civil Works</option><option>Renovation & Remodeling</option><option>Roofing & Structural Repairs</option><option>Welding & Fabrication</option><option>Property Maintenance</option><option>Plumbing & Drainage</option><option>HSE & Project Support</option></select></label><label>Project Details<textarea name=\"details\" placeholder=\"Describe location, scope, timeline, and any requirements.\"></textarea></label><button class=\"btn btn-primary\" type=\"submit\">Submit Request</button></form></article><article class=\"card\"><h2>What You Can Expect</h2><ul class=\"clean\"><li>Prompt response from our team.</li><li>Practical review of your project requirements.</li><li>Professional quotation and scope clarification.</li><li>Safe and reliable execution planning.</li></ul><p>Prefer to call? Reach us directly at <strong>789-4949</strong> or <strong>763-8489</strong>.</p></article></div></section>"
+      }
+    ]
+  },
+  "contact": {
+    "title": "Contact Us",
+    "sections": [
+      {
+        "id": "contact-section-1",
+        "label": "Contact Intro",
+        "html": "<section class=\"page-hero\"><div class=\"container\"><span class=\"kicker\">Contact M.J.CO Limited</span><h1>Let Us Support Your Next Construction or Maintenance Project</h1><p>Reach out for a site visit, quotation, or project consultation. We serve clients across Trinidad and Tobago.</p></div></section>"
+      },
+      {
+        "id": "contact-section-2",
+        "label": "Contact Details and Message Form",
+        "html": "<section class=\"section\"><div class=\"container grid-2\"><article class=\"card\"><h2>Contact Details</h2><p><strong>M.J.CO Limited</strong><br>General Construction & Maintenance</p><p>Lot #6 Hill Top Palms, Hill Top Drive,<br>Ravine Sable, Longdenville, Chaguanas,<br>Trinidad & Tobago</p><p>Phone: 789-4949 / 763-8489<br>Email: <a href=\"mailto:mjcolimited765@gmail.com\">mjcolimited765@gmail.com</a><br>VAT No.: 385045</p></article><article class=\"card\"><h2>Quick Message</h2><form class=\"form\" action=\"mailto:mjcolimited765@gmail.com\" method=\"post\" enctype=\"text/plain\"><label>Name<input type=\"text\" name=\"name\" required></label><label>Email<input type=\"email\" name=\"email\" required></label><label>Phone<input type=\"tel\" name=\"phone\"></label><label>Message<textarea name=\"message\" required></textarea></label><button class=\"btn btn-primary\" type=\"submit\">Send Message</button></form></article></div></section>"
+      }
+    ]
+  }
+}

@@ -1,0 +1,602 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>M.J.CO Limited CMS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #f1ece3;
+        --surface: #fffaf4;
+        --ink: #1f1b16;
+        --muted: #5d5346;
+        --line: #d8c9b4;
+        --accent: #cc5a1b;
+        --accent-dark: #923f12;
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: "Source Sans 3", "Segoe UI", sans-serif;
+        background: linear-gradient(120deg, #f8f0e4 0%, #efe6db 100%);
+        color: var(--ink);
+      }
+
+      header {
+        padding: 18px 24px;
+        border-bottom: 1px solid var(--line);
+        background: rgba(255, 250, 244, 0.9);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      header h1 {
+        margin: 0;
+        font-family: "Bebas Neue", sans-serif;
+        letter-spacing: 0.04em;
+        font-size: 2rem;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 330px 1fr;
+        min-height: calc(100vh - 76px);
+      }
+
+      .panel,
+      .editor {
+        padding: 18px;
+      }
+
+      .panel {
+        border-right: 1px solid var(--line);
+        background: #fff8ef;
+      }
+
+      .editor {
+        display: grid;
+        gap: 10px;
+      }
+
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 12px;
+      }
+
+      label {
+        display: block;
+        font-weight: 700;
+        margin-bottom: 6px;
+      }
+
+      input,
+      select,
+      button {
+        font: inherit;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        border: 1px solid #cdbca6;
+        border-radius: 8px;
+        padding: 10px;
+        background: #fff;
+      }
+
+      button {
+        border: 0;
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .btn-primary { background: var(--accent); color: #fff; }
+      .btn-primary:hover { background: var(--accent-dark); }
+      .btn-muted { background: #ece0d2; color: #3a2d22; }
+
+      .row { display: flex; gap: 8px; flex-wrap: wrap; }
+
+      .section-list {
+        display: grid;
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .section-item {
+        border: 1px solid var(--line);
+        background: #fff;
+        border-radius: 8px;
+        padding: 8px;
+      }
+
+      .section-item.active {
+        border-color: var(--accent);
+        box-shadow: inset 0 0 0 1px var(--accent);
+      }
+
+      .section-item button {
+        width: 100%;
+        text-align: left;
+        padding: 8px;
+        background: #f6ecdf;
+        color: #34281e;
+      }
+
+      .section-controls {
+        display: flex;
+        gap: 6px;
+        margin-top: 8px;
+      }
+
+      .section-controls button {
+        flex: 1;
+        padding: 7px 8px;
+        background: #eee0cf;
+      }
+
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .toolbar button {
+        background: #efe1d0;
+        color: #322519;
+        padding: 8px 10px;
+      }
+
+      #section-editor {
+        min-height: 320px;
+        border: 1px solid #cdbca6;
+        border-radius: 8px;
+        padding: 12px;
+        background: #fff;
+        overflow: auto;
+      }
+
+      #section-editor:focus {
+        outline: 2px solid #d59a6f;
+        outline-offset: 2px;
+      }
+
+      #upload-list {
+        display: grid;
+        gap: 8px;
+      }
+
+      .upload-item {
+        display: grid;
+        grid-template-columns: 1fr auto auto auto;
+        gap: 8px;
+        align-items: center;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 8px;
+      }
+
+      .small {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .status {
+        font-weight: 700;
+        min-height: 24px;
+      }
+
+      @media (max-width: 960px) {
+        .layout { grid-template-columns: 1fr; }
+        .panel { border-right: 0; border-bottom: 1px solid var(--line); }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>M.J.CO Limited Website Admin</h1>
+      <div class="small">Select a page, then edit each section using simple fields and buttons.</div>
+    </header>
+
+    <div class="layout">
+      <aside class="panel">
+        <div class="card">
+          <label for="page-select">Select Page</label>
+          <select id="page-select"></select>
+        </div>
+
+        <div class="card">
+          <div class="row" style="justify-content:space-between; align-items:center;">
+            <h3 style="margin:0;">Sections</h3>
+            <button id="add-section" class="btn-muted" type="button">Add Section</button>
+          </div>
+          <div id="section-list" class="section-list"></div>
+        </div>
+
+        <div class="card">
+          <label for="upload-input">Upload Image</label>
+          <input id="upload-input" type="file" accept="image/*" />
+          <div class="row" style="margin-top:8px;">
+            <button id="upload-btn" class="btn-primary" type="button">Upload</button>
+            <button id="refresh-uploads" class="btn-muted" type="button">Refresh</button>
+          </div>
+          <p class="small">Use Insert in editor to place an image in the selected section.</p>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-top:0;">Uploaded Images</h3>
+          <div id="upload-list"></div>
+        </div>
+      </aside>
+
+      <section class="editor">
+        <div class="card">
+          <label for="page-title">Page Title</label>
+          <input id="page-title" type="text" />
+        </div>
+        <div class="card">
+          <label for="section-label">Selected Section Name</label>
+          <input id="section-label" type="text" placeholder="Section name" />
+        </div>
+        <div class="card">
+          <div class="toolbar">
+            <button data-cmd="bold" type="button">Bold</button>
+            <button data-cmd="italic" type="button">Italic</button>
+            <button data-cmd="insertUnorderedList" type="button">Bullet List</button>
+            <button data-cmd="formatBlock" data-value="h2" type="button">Heading</button>
+            <button data-cmd="formatBlock" data-value="p" type="button">Paragraph</button>
+          </div>
+          <p class="small" style="margin-top:8px;">Type directly here. No coding needed.</p>
+          <div id="section-editor" contenteditable="true"></div>
+        </div>
+        <div class="row">
+          <button id="save-btn" class="btn-primary" type="button">Save Page</button>
+          <a class="btn-muted" id="view-link" href="/" target="_blank" style="text-decoration:none; display:inline-block;">Preview Page</a>
+        </div>
+        <div id="status" class="status"></div>
+      </section>
+    </div>
+
+    <script>
+      const pageSelect = document.getElementById("page-select");
+      const pageTitle = document.getElementById("page-title");
+      const sectionList = document.getElementById("section-list");
+      const addSectionBtn = document.getElementById("add-section");
+      const sectionLabel = document.getElementById("section-label");
+      const sectionEditor = document.getElementById("section-editor");
+      const statusEl = document.getElementById("status");
+      const viewLink = document.getElementById("view-link");
+      const uploadInput = document.getElementById("upload-input");
+      const uploadBtn = document.getElementById("upload-btn");
+      const uploadList = document.getElementById("upload-list");
+      const refreshUploads = document.getElementById("refresh-uploads");
+      const toolbarButtons = Array.from(document.querySelectorAll(".toolbar button"));
+
+      let pages = {};
+      let currentPage = "index";
+      let currentSectionId = "";
+
+      const fileHref = (key) => (key === "index" ? "/index.html" : `/${key}.html`);
+
+      function setStatus(message, isError = false) {
+        statusEl.textContent = message;
+        statusEl.style.color = isError ? "#a02222" : "#1f6a3b";
+      }
+
+      function sectionTemplate(pageKey, index) {
+        return {
+          id: `${pageKey}-section-${Date.now()}-${index}`,
+          label: `Section ${index + 1}`,
+          html: '<section class="section"><div class="container"><h2>New Section</h2><p>Enter your content here.</p></div></section>'
+        };
+      }
+
+      async function loadPages() {
+        const res = await fetch("/api/pages");
+        const summaries = await res.json();
+
+        pageSelect.innerHTML = "";
+        Object.entries(summaries).forEach(([key, page]) => {
+          const opt = document.createElement("option");
+          opt.value = key;
+          opt.textContent = page.title;
+          pageSelect.appendChild(opt);
+        });
+
+        await loadSinglePage(pageSelect.value || "index");
+      }
+
+      async function loadSinglePage(key) {
+        const res = await fetch(`/api/pages/${key}`);
+        if (!res.ok) {
+          setStatus("Failed to load page", true);
+          return;
+        }
+        const page = await res.json();
+        pages[key] = page;
+        currentPage = key;
+        pageTitle.value = page.title;
+        viewLink.href = fileHref(key);
+        renderSectionList();
+
+        if (page.sections.length) {
+          selectSection(page.sections[0].id);
+        } else {
+          currentSectionId = "";
+          sectionLabel.value = "";
+          sectionEditor.innerHTML = "";
+        }
+      }
+
+      function renderSectionList() {
+        const page = pages[currentPage];
+        sectionList.innerHTML = "";
+        if (!page || !page.sections.length) {
+          sectionList.innerHTML = '<div class="small">No sections yet. Click Add Section.</div>';
+          return;
+        }
+
+        page.sections.forEach((section, index) => {
+          const item = document.createElement("div");
+          item.className = "section-item";
+          if (section.id === currentSectionId) {
+            item.classList.add("active");
+          }
+
+          const selectBtn = document.createElement("button");
+          selectBtn.type = "button";
+          selectBtn.textContent = `${index + 1}. ${section.label}`;
+          selectBtn.addEventListener("click", () => selectSection(section.id));
+
+          const controls = document.createElement("div");
+          controls.className = "section-controls";
+
+          const upBtn = document.createElement("button");
+          upBtn.type = "button";
+          upBtn.textContent = "Up";
+          upBtn.disabled = index === 0;
+          upBtn.addEventListener("click", () => moveSection(index, -1));
+
+          const downBtn = document.createElement("button");
+          downBtn.type = "button";
+          downBtn.textContent = "Down";
+          downBtn.disabled = index === page.sections.length - 1;
+          downBtn.addEventListener("click", () => moveSection(index, 1));
+
+          const delBtn = document.createElement("button");
+          delBtn.type = "button";
+          delBtn.textContent = "Delete";
+          delBtn.addEventListener("click", () => deleteSection(index));
+
+          controls.appendChild(upBtn);
+          controls.appendChild(downBtn);
+          controls.appendChild(delBtn);
+
+          item.appendChild(selectBtn);
+          item.appendChild(controls);
+          sectionList.appendChild(item);
+        });
+      }
+
+      function persistCurrentSectionDraft() {
+        const page = pages[currentPage];
+        if (!page || !currentSectionId) return;
+        const section = page.sections.find((s) => s.id === currentSectionId);
+        if (!section) return;
+        section.label = sectionLabel.value.trim() || section.label;
+        section.html = sectionEditor.innerHTML;
+      }
+
+      function selectSection(sectionId) {
+        persistCurrentSectionDraft();
+        currentSectionId = sectionId;
+
+        const page = pages[currentPage];
+        const section = page.sections.find((s) => s.id === sectionId);
+        if (!section) return;
+
+        sectionLabel.value = section.label;
+        sectionEditor.innerHTML = section.html;
+        renderSectionList();
+      }
+
+      function moveSection(index, delta) {
+        const page = pages[currentPage];
+        const target = index + delta;
+        if (target < 0 || target >= page.sections.length) return;
+        persistCurrentSectionDraft();
+        const [item] = page.sections.splice(index, 1);
+        page.sections.splice(target, 0, item);
+        renderSectionList();
+        setStatus("Section order updated.");
+      }
+
+      function deleteSection(index) {
+        const page = pages[currentPage];
+        if (!page || !page.sections[index]) return;
+        const ok = confirm(`Delete ${page.sections[index].label}?`);
+        if (!ok) return;
+        page.sections.splice(index, 1);
+        if (!page.sections.length) {
+          currentSectionId = "";
+          sectionLabel.value = "";
+          sectionEditor.innerHTML = "";
+        } else {
+          currentSectionId = page.sections[Math.max(0, index - 1)].id;
+          const selected = page.sections.find((s) => s.id === currentSectionId);
+          sectionLabel.value = selected.label;
+          sectionEditor.innerHTML = selected.html;
+        }
+        renderSectionList();
+      }
+
+      function addSection() {
+        const page = pages[currentPage];
+        if (!page) return;
+        persistCurrentSectionDraft();
+        const newSection = sectionTemplate(currentPage, page.sections.length);
+        page.sections.push(newSection);
+        currentSectionId = newSection.id;
+        sectionLabel.value = newSection.label;
+        sectionEditor.innerHTML = newSection.html;
+        renderSectionList();
+        setStatus("New section added.");
+      }
+
+      async function savePage() {
+        const key = currentPage;
+        persistCurrentSectionDraft();
+
+        const page = pages[key];
+        const body = {
+          title: pageTitle.value,
+          sections: page.sections
+        };
+
+        const res = await fetch(`/api/pages/${key}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body)
+        });
+
+        if (!res.ok) {
+          const err = await res.json();
+          setStatus(err.error || "Save failed", true);
+          return;
+        }
+
+        const data = await res.json();
+        pages[key] = data.page;
+        setStatus("Page saved successfully.");
+
+        const selectedText = pageSelect.options[pageSelect.selectedIndex];
+        if (selectedText) selectedText.textContent = data.page.title;
+      }
+
+      async function loadUploads() {
+        const res = await fetch("/api/uploads");
+        const files = await res.json();
+
+        uploadList.innerHTML = "";
+        if (!files.length) {
+          uploadList.innerHTML = '<div class="small">No images uploaded yet.</div>';
+          return;
+        }
+
+        files.forEach((file) => {
+          const row = document.createElement("div");
+          row.className = "upload-item";
+
+          const urlInput = document.createElement("input");
+          urlInput.type = "text";
+          urlInput.value = file.url;
+          urlInput.readOnly = true;
+
+          const copyBtn = document.createElement("button");
+          copyBtn.type = "button";
+          copyBtn.className = "btn-muted";
+          copyBtn.textContent = "Copy";
+          copyBtn.addEventListener("click", async () => {
+            await navigator.clipboard.writeText(file.url);
+            setStatus(`Copied ${file.url}`);
+          });
+
+          const insertBtn = document.createElement("button");
+          insertBtn.type = "button";
+          insertBtn.className = "btn-muted";
+          insertBtn.textContent = "Insert";
+          insertBtn.addEventListener("click", () => {
+            sectionEditor.focus();
+            document.execCommand("insertImage", false, file.url);
+            setStatus("Image inserted into selected section.");
+          });
+
+          const delBtn = document.createElement("button");
+          delBtn.type = "button";
+          delBtn.className = "btn-muted";
+          delBtn.textContent = "Delete";
+          delBtn.addEventListener("click", async () => {
+            const ok = confirm(`Delete ${file.name}?`);
+            if (!ok) return;
+            const resDel = await fetch(`/api/uploads/${encodeURIComponent(file.name)}`, { method: "DELETE" });
+            if (resDel.ok) {
+              setStatus("Image deleted.");
+              loadUploads();
+            } else {
+              setStatus("Delete failed.", true);
+            }
+          });
+
+          row.appendChild(urlInput);
+          row.appendChild(copyBtn);
+          row.appendChild(insertBtn);
+          row.appendChild(delBtn);
+          uploadList.appendChild(row);
+        });
+      }
+
+      async function uploadImage() {
+        const file = uploadInput.files[0];
+        if (!file) {
+          setStatus("Choose an image first.", true);
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append("image", file);
+
+        const res = await fetch("/api/upload", {
+          method: "POST",
+          body: formData
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+          setStatus(data.error || "Upload failed", true);
+          return;
+        }
+
+        setStatus(`Upload complete: ${data.url}`);
+        uploadInput.value = "";
+        loadUploads();
+      }
+
+      pageSelect.addEventListener("change", () => loadSinglePage(pageSelect.value));
+      addSectionBtn.addEventListener("click", addSection);
+
+      sectionLabel.addEventListener("input", () => {
+        const page = pages[currentPage];
+        if (!page) return;
+        const section = page.sections.find((s) => s.id === currentSectionId);
+        if (!section) return;
+        section.label = sectionLabel.value;
+        renderSectionList();
+      });
+
+      toolbarButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const cmd = btn.dataset.cmd;
+          const value = btn.dataset.value || null;
+          sectionEditor.focus();
+          document.execCommand(cmd, false, value);
+        });
+      });
+
+      document.getElementById("save-btn").addEventListener("click", savePage);
+      uploadBtn.addEventListener("click", uploadImage);
+      refreshUploads.addEventListener("click", loadUploads);
+
+      loadPages().then(loadUploads).catch((err) => setStatus(err.message, true));
+    </script>
+  </body>
+</html>
