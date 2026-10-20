@@ -156,11 +156,14 @@ function getBaseShell({ title, activePage, bodyHtml }) {
       rel="stylesheet"
     />
     <link rel="stylesheet" href="assets/css/styles.css" />
+    <link rel="icon" href="assets/images/brand/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" href="assets/images/brand/favicon.png" sizes="256x256" />
+    <link rel="apple-touch-icon" href="assets/images/brand/apple-touch-icon.png" />
   </head>
   <body>
     <header class="site-header">
       <div class="container nav-wrap">
-        <a class="brand" href="index.html">M.J.CO LIMITED <small>General Construction & Maintenance</small></a>
+        <a class="brand" href="index.html" aria-label="M.J.CO Limited home"><img class="brand-logo" src="assets/images/brand/mjco-logo.png" alt="M.J.CO Limited" width="960" height="729" /><small>General Construction &amp; Maintenance</small></a>
         <button class="nav-toggle" aria-label="Open menu">Menu</button>
         <nav class="site-nav">${nav}</nav>
       </div>
