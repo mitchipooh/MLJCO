@@ -1,5 +1,5 @@
 # Sample workflow for building and deploying a Jekyll site to GitHub Pages
-name: Deploy Jekyll with GitHub Pages dependencies preinstalled
+name: Deploy public website preview to GitHub Pages
 
 on:
   # Runs on pushes targeting the default branch
@@ -30,13 +30,25 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
-      - name: Build with Jekyll
-        uses: actions/jekyll-build-pages@v1
+      - name: Set up Node
+        uses: actions/setup-node@v4
         with:
-          source: ./
-          destination: ./_site
+          node-version: '22'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+      - name: Prepare public project content and SEO
+        run: |
+          node backend/import-facebook.js
+          node backend/apply-seo.js
+      - name: Export public HTML and photos
+        run: npm run build:static
+        env:
+          SITE_URL: https://mitchipooh.github.io/MLJCO/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
 
   # Deployment job
   deploy:

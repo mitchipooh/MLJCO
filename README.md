@@ -1,5 +1,9 @@
 # M.J.CO website
 
+## GitHub Pages customer preview
+
+The Pages workflow exports public HTML with published project cards, photos, the journal, SEO and appearance settings. Run `node backend/import-facebook.js`, `node backend/apply-seo.js`, then `npm run build:static` to build the public files in `dist`. The workflow deploys only `dist`, excluding private data, backend source and admin tools. GitHub Pages shows an explanation at Website Admin; the functioning CMS requires Node hosting. Set `SITE_URL` when building for a different public URL. Customer changes made on a hosted backend require a new export to update the static preview.
+
 Run `npm ci`, then `npm start`. Open http://127.0.0.1:5500/admin for the dashboard.
 
 The dashboard includes server page-request totals, top pages and referring domains (30 days), per-page SEO and social metadata, blog/vlog drafts and publishing, and site colors, body font and corner radius. The Pages & Images editor manages page sections, their order, text formatting, bullet lists and uploaded images. Published posts appear at `/journal`.

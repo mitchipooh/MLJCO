@@ -5,6 +5,7 @@
   "main": "backend/server.js",
   "scripts": {
     "setup-admin": "node backend/setup-admin.js",
+    "build:static": "node backend/build-static.js",
     "start": "node backend/server.js",
     "dev": "node backend/server.js",
     "test": "echo \"No tests configured\""

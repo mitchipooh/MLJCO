@@ -7,3 +7,4 @@ backend/data/traffic.json
 backend/data/*.tmp
 backend/data/admin-auth.json
 admin-access.txt
+dist/
