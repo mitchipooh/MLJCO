@@ -1,0 +1,70 @@
+const {test}=require('node:test');
+const assert=require('node:assert/strict');
+const express=require('express');
+const fs=require('fs');const os=require('os');const path=require('path');
+test('management persistence, publication, SEO, theme, analytics and access control',async()=>{
+  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'mljco-test-'));process.env.CMS_DATA_DIR=dir;
+  const app=express();app.use(express.json());
+  require('./management')(app,{rootDir:path.resolve(__dirname,'..'),getBaseShell:({title,bodyHtml})=>`<html><head><title>${title}</title></head><body>${bodyHtml}</body></html>`});
+  const server=app.listen(0,'127.0.0.1');await new Promise(resolve=>server.once('listening',resolve));
+  const base=`http://127.0.0.1:${server.address().port}`;
+  let sessionCookie='';
+  async function request(url,method='GET',body,headers={}){return fetch(base+url,{method,headers:{'Content-Type':'application/json',Cookie:sessionCookie,...headers},body:body?JSON.stringify(body):undefined,redirect:'manual'});}
+  try{
+    assert.equal((await request('/api/manage')).status,401);
+    assert.equal((await request('/admin/dashboard.html')).status,302);
+    assert.equal((await request('/ADMIN/index.html')).status,302);
+    assert.equal((await request('/api/login','POST',{password:'anything'})).status,503);
+    process.env.ADMIN_PASSWORD='test-password';
+    const signIn=await request('/api/login','POST',{password:'test-password'});assert.equal(signIn.status,200);
+    sessionCookie=signIn.headers.get('set-cookie').split(';')[0];
+    assert.ok(signIn.headers.get('set-cookie').includes('HttpOnly'));assert.ok(signIn.headers.get('set-cookie').includes('SameSite=Strict'));
+    let r=await request('/api/manage');assert.equal(r.status,200);const initial=await r.json();
+    r=await request('/api/manage/posts','POST',{title:'Draft <unsafe>',body:'<script>alert(1)</script>',type:'blog',status:'draft'});assert.equal(r.status,200);const post=await r.json();
+    assert.ok(!(await(await request('/journal')).text()).includes('Draft &lt;unsafe&gt;'));
+    r=await request('/api/manage/posts','POST',{...post,status:'published',placement:'featured',video:'https://www.facebook.com/watch/?v=247076168015558',source:'https://www.facebook.com/share/v/17gvBKJKmD/',cover:'/assets/images/projects/example.jpg',coverAlt:'Steel & roof framing'});assert.equal(r.status,200);
+    const journal=await(await request('/journal')).text();assert.ok(journal.includes('Draft &lt;unsafe&gt;'));assert.ok(journal.includes('&lt;script&gt;'));
+    assert.ok(journal.includes('class="post-cover"'));assert.ok(journal.includes('alt="Steel &amp; roof framing"'));
+    assert.ok(journal.includes('Load Facebook video'));assert.ok(journal.includes('View original on Facebook'));assert.ok(journal.includes('data-media-src="https://www.facebook.com/plugins/video.php?'));
+    const featuredHome=await(await request('/')).text();assert.ok(featuredHome.includes('Draft &lt;unsafe&gt;'));
+    assert.ok(featuredHome.indexOf('class="section project-updates"')<featuredHome.indexOf('Why Choose M.J.CO Limited'));
+    r=await request('/api/manage/posts','POST',{...post,cover:'javascript:alert(1)'});assert.equal(r.status,400);
+    r=await request('/api/manage/posts','POST',{...post,cover:'/assets/images/../../backend/data/pages.json'});assert.equal(r.status,400);
+    assert.ok((await(await request('/projects.html')).text()).includes('Draft &lt;unsafe&gt;'));
+    r=await request('/api/manage/posts','POST',{...post,status:'draft',placement:'featured'});assert.equal(r.status,200);
+    assert.ok(!(await(await request('/')).text()).includes('Draft &lt;unsafe&gt;'));
+    assert.ok(!(await(await request('/projects.html')).text()).includes('Draft &lt;unsafe&gt;'));
+    r=await request('/api/manage/posts','POST',{...post,status:'published',placement:'journal'});assert.equal(r.status,200);
+    assert.ok(!(await(await request('/')).text()).includes('Draft &lt;unsafe&gt;'));
+    r=await request('/api/manage/posts','POST',{...post,type:'vlog',video:'javascript:alert(1)'});assert.equal(r.status,400);
+    r=await request('/api/manage/seo/index','PUT',{title:'Our construction company',description:'Building & maintenance',canonical:'https://example.com/',image:'/assets/images/projects/example.jpg'});assert.equal(r.status,200);
+    let home=await(await request('/')).text();assert.ok(home.includes('<title>Our construction company</title>'));assert.ok(home.includes('Building &amp; maintenance'));
+    assert.ok(home.includes('property="og:image" content="https://example.com/assets/images/projects/example.jpg"'));
+    assert.ok(home.includes('name="twitter:card" content="summary_large_image"'));
+    r=await request('/api/manage/theme','PUT',{...initial.theme,accent:'#123456',radius:4});assert.equal(r.status,200);
+    home=await(await request('/')).text();assert.ok(home.includes('--accent:#123456'));assert.ok(home.includes('--radius:4px'));
+    r=await request('/api/manage/theme','PUT',{...initial.theme,accent:'red;bad'});assert.equal(r.status,400);
+    const stats=await(await request('/api/manage/traffic')).json();assert.ok(stats.days.at(-1).views>=4);
+    assert.equal(JSON.parse(fs.readFileSync(path.join(dir,'management.json'))).theme.accent,'#123456');
+    r=await request('/api/manage/posts/'+post.id,'DELETE');assert.equal(r.status,200);assert.equal((await(await request('/api/manage')).json()).posts.length,0);
+    r=await request('/api/manage/theme','PUT',initial.theme,{Origin:'https://other.example'});assert.equal(r.status,403);
+    sessionCookie='';r=await request('/api/manage');assert.equal(r.status,401);
+    r=await request('/api/login','POST',{password:'wrong'});assert.equal(r.status,401);
+    r=await request('/api/login','POST',{password:'test-password'});assert.equal(r.status,200);const cookie=r.headers.get('set-cookie').split(';')[0];
+    r=await request('/api/manage','GET',undefined,{Cookie:cookie});assert.equal(r.status,200);
+    r=await request('/api/logout','POST',undefined,{Cookie:cookie});assert.equal(r.status,200);
+    r=await request('/api/manage','GET',undefined,{Cookie:cookie});assert.equal(r.status,401);
+    for(let i=0;i<5;i++)assert.equal((await request('/api/login','POST',{password:'bad'})).status,401);
+    assert.equal((await request('/api/login','POST',{password:'test-password'})).status,429);
+  }finally{delete process.env.ADMIN_PASSWORD;delete process.env.CMS_DATA_DIR;await new Promise(resolve=>server.close(resolve));}
+});
+
+test('media URLs are limited to supported providers and safe embed paths',()=>{
+  const media=require('./media');
+  for(const url of ['https://www.facebook.com/share/v/1FHAXUJC25/','https://www.facebook.com/share/r/1DiLkd9cTY/','https://www.facebook.com/share/p/1URcsTFwNC/','https://www.facebook.com/reel/575494658928810/','https://www.facebook.com/100063613685285/videos/362366193485446/','https://www.facebook.com/watch/?v=1112014373371315'])assert.equal(media(url).provider,'Facebook');
+  assert.equal(media('https://www.facebook.com/share/p/1URcsTFwNC/').kind,'post');
+  assert.equal(media('https://www.facebook.com/watch/?v=123&rdid=tracking').url,'https://www.facebook.com/watch/?v=123');
+  for(const url of ['javascript:alert(1)','https://facebook.com.evil.example/watch/?v=1','https://www.facebook.com/plugins/video.php','https://user:password@facebook.com/watch/?v=1','http://facebook.com/watch/?v=1','https://facebook.com:444/watch/?v=1'])assert.equal(media(url),null);
+  assert.equal(media('https://www.youtube.com/watch?v=abc_123&t=5').provider,'YouTube');
+  assert.equal(media('https://vimeo.com/12345').provider,'Vimeo');
+});

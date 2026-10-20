@@ -5,16 +5,17 @@ const multer = require("multer");
 
 const app = express();
 const port = process.env.PORT || 5500;
+const host = process.env.HOST || "127.0.0.1";
 
 const rootDir = path.resolve(__dirname, "..");
 const dataFile = path.join(__dirname, "data", "pages.json");
 const uploadsDir = path.join(__dirname, "uploads");
+fs.mkdirSync(uploadsDir, { recursive: true });
 
 app.use(express.json({ limit: "2mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(uploadsDir));
 app.use("/assets", express.static(path.join(rootDir, "assets")));
-app.use("/admin", express.static(path.join(rootDir, "admin")));
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, uploadsDir),
@@ -136,6 +137,7 @@ function getBaseShell({ title, activePage, bodyHtml }) {
     ["request-quote", "Request a Quote", "request-quote.html"],
     ["contact", "Contact Us", "contact.html"]
   ];
+  pages.push(["journal", "Blog / Vlog", "journal"]);
 
   const nav = pages
     .map(([key, label, href]) => `<a${key === activePage ? ' class="active"' : ""} href="${href}">${label}</a>`)
@@ -178,6 +180,7 @@ function getBaseShell({ title, activePage, bodyHtml }) {
           Email: mjcolimited765@gmail.com<br />
           VAT No.: 385045<br />
           <small>Copyright <span data-year></span> M.J.CO Limited</small>
+          <br /><a href="/admin" class="admin-link">Website Admin</a>
         </div>
       </div>
     </footer>
@@ -200,6 +203,9 @@ function renderAllPages() {
     fs.writeFileSync(targetPath, html);
   });
 }
+
+require("./management")(app, { rootDir, getBaseShell });
+app.use("/admin", express.static(path.join(rootDir, "admin")));
 
 app.get("/api/pages", (req, res) => {
   const pages = normalizePagesData(readPages());
@@ -316,6 +322,11 @@ const normalizedAtBoot = normalizePagesData(readPages());
 writePages(normalizedAtBoot);
 renderAllPages();
 
-app.listen(port, () => {
-  console.log(`CMS server running on http://localhost:${port}`);
+app.listen(port, host, (error) => {
+  if (error) {
+    console.error(`Unable to start CMS server at http://${host}:${port}: ${error.message}`);
+    process.exitCode = 1;
+    return;
+  }
+  console.log(`CMS server running on http://${host}:${port}`);
 });

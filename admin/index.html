@@ -205,6 +205,8 @@
   <body>
     <header>
       <h1>M.J.CO Limited Website Admin</h1>
+      <a href="/admin/dashboard.html">← Dashboard · Traffic, SEO, Blog / Vlog & Appearance</a>
+      <button id="sign-out" type="button">Sign out</button>
       <div class="small">Select a page, then edit each section using simple fields and buttons.</div>
     </header>
 
@@ -221,6 +223,8 @@
             <button id="add-section" class="btn-muted" type="button">Add Section</button>
           </div>
           <div id="section-list" class="section-list"></div>
+          <label for="section-type">New section type</label>
+          <select id="section-type"><option value="text">Text</option><option value="list">Content list</option><option value="video">Video / vlog</option></select>
         </div>
 
         <div class="card">
@@ -269,6 +273,9 @@
 
     <script>
       const pageSelect = document.getElementById("page-select");
+      document.getElementById("sign-out").onclick = async () => { await fetch('/api/logout', { method: 'POST' }); location.replace('/admin/login.html'); };
+      const originalFetch = window.fetch.bind(window);
+      window.fetch = async (...args) => { const response = await originalFetch(...args); if (response.status === 401) location.replace('/admin/login.html'); return response; };
       const pageTitle = document.getElementById("page-title");
       const sectionList = document.getElementById("section-list");
       const addSectionBtn = document.getElementById("add-section");
@@ -445,6 +452,29 @@
         if (!page) return;
         persistCurrentSectionDraft();
         const newSection = sectionTemplate(currentPage, page.sections.length);
+        const kind = document.getElementById("section-type").value;
+        if (kind === "list") {
+          newSection.label = "Content list";
+          newSection.html = '<section class="section"><div class="container"><h2>Our latest updates</h2><ul><li>First item</li><li>Second item</li><li>Third item</li></ul></div></section>';
+        }
+        if (kind === "video") {
+          const value = prompt("Paste a YouTube watch URL, youtu.be link or Vimeo video URL");
+          if (!value) return;
+          let source;
+          try {
+            const url = new URL(value);
+            if (url.protocol !== "https:") throw Error();
+            const host = url.hostname.replace(/^www\./, "");
+            if (host === "vimeo.com" && /^\/\d+$/.test(url.pathname)) source = "https://player.vimeo.com/video/" + url.pathname.slice(1);
+            else if (["youtube.com", "youtu.be"].includes(host)) {
+              const id = host === "youtu.be" ? url.pathname.slice(1) : url.searchParams.get("v");
+              if (!/^[\w-]+$/.test(id || "")) throw Error();
+              source = "https://www.youtube-nocookie.com/embed/" + id;
+            } else throw Error();
+          } catch { setStatus("Enter a valid YouTube or Vimeo video URL.", true); return; }
+          newSection.label = "Video / vlog";
+          newSection.html = `<section class="section"><div class="container"><h2>Project video</h2><iframe title="Project video" src="${source}" style="width:100%;aspect-ratio:16/9;border:0" loading="lazy" allowfullscreen></iframe><p>Add your video description here.</p></div></section>`;
+        }
         page.sections.push(newSection);
         currentSectionId = newSection.id;
         sectionLabel.value = newSection.label;

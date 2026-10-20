@@ -4,6 +4,7 @@
   "description": "",
   "main": "backend/server.js",
   "scripts": {
+    "setup-admin": "node backend/setup-admin.js",
     "start": "node backend/server.js",
     "dev": "node backend/server.js",
     "test": "echo \"No tests configured\""

@@ -11,6 +11,19 @@
   --shadow: 0 12px 30px rgba(20, 16, 10, 0.12);
 }
 
+.project-story { display:flex; flex-direction:column; scroll-margin-top:110px; }
+.post-cover-link { display:block; margin-bottom:20px; }
+.post-cover { width:100%; height:260px; object-fit:cover; object-position:center; border-radius:calc(var(--radius) * .65); }
+.project-story h2 { font-size:1.65rem; line-height:1.2; }
+.project-story small { color:var(--muted); text-transform:uppercase; letter-spacing:.08em; }
+.story-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:auto; padding-top:14px; }
+.story-actions .btn { font-size:.88rem; }
+.media-placeholder { display:grid; justify-items:start; gap:14px; padding:24px; background:var(--bg); border:1px solid var(--line); border-radius:var(--radius); }
+.media-placeholder>span { font-weight:700; }
+.media-placeholder p { font-size:.85rem; color:var(--muted); margin:0; }
+.journal-video { min-height:340px; background:var(--bg); }
+.project-updates { border-top:1px solid var(--line); }
+
 * {
   box-sizing: border-box;
 }
