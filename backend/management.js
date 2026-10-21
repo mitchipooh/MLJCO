@@ -87,7 +87,7 @@ module.exports = (app, { rootDir, getBaseShell }) => {
   const highlights = key => {
     let posts=read().posts.filter(p=>p.status==='published' && (key==='index'?p.placement==='featured':['projects','featured'].includes(p.placement)));
     if(key==='index')posts=posts.slice(0,3);
-    return posts.length?`<section class="section project-updates"><div class="container"><span class="kicker">FROM OUR PROJECTS</span><h2>${key==='index'?'See our work in action':'Project stories & videos'}</h2><p>Explore updates shared by M.J.CO Limited, from groundwork to finished spaces.</p><div class="grid-3">${posts.map(p=>article(p,true)).join('')}</div></div></section>`:'';
+    return posts.length?`<section id="our-work" class="section project-updates"><div class="container"><span class="kicker">FROM OUR PROJECTS</span><h2>${key==='index'?'See our work in action':'Project stories & videos'}</h2><p>Explore updates shared by M.J.CO Limited, from groundwork to finished spaces.</p><div class="grid-3">${posts.map(p=>article(p,true)).join('')}</div></div></section>`:'';
   };
   app.get('/journal', (req,res) => {
     const posts=read().posts.filter(p=>p.status==='published');
@@ -99,6 +99,7 @@ module.exports = (app, { rootDir, getBaseShell }) => {
     const pages=JSON.parse(fs.readFileSync(path.join(__dirname,'data','pages.json')));
     if(!Object.hasOwn(pages,key))return next();
     let html=fs.readFileSync(path.join(rootDir,key+'.html'),'utf8');
+    if(key==='index')html=html.replace('<!-- HERO_SLIDES -->',require('./hero')(read().posts));
     if(key==='index') {
       const updates=highlights(key);let inserted=false;
       html=html.replace(/<section\b[^>]*>[\s\S]*?<\/section>/gi, section=>{

@@ -20,6 +20,8 @@ Run `node --test backend/management.test.js` to check management persistence, pu
 
 ## Facebook project content
 
+The home page opens with a full-screen video showcase and company introduction. Published video posts marked Home + Projects + Blog / Vlog form its playlist. Slides rotate every 15 seconds, with previous, next and pause controls. Reduced-motion preferences show a still photo until Play is chosen; playback stops when the hero is off-screen or the tab is hidden. Background playback requests muted autoplay from Facebook, but Facebook and browser restrictions can still require user interaction. Original MP4 assets are recommended for reliable seamless background video. The hero's text is editable in Pages & content lists → Home → Full-screen video introduction. Keep its HERO_SLIDES comment marker to populate the playlist.
+
 Six supplied Facebook links were reviewed on October 20, 2026. The source links, verified observations and editorial summaries are recorded in `backend/data/facebook-import.json`. Run `node backend/import-facebook.js` once to add them to the CMS. The import keeps an import marker so later customer edits and deletions are not undone by running it again.
 
 In the dashboard's Blog / Vlog section, customers can search entries, filter drafts or Facebook content, edit descriptions and supported media links, publish or hide entries, delete entries, and choose their display location. Featured entries appear on Home (first three), Projects and Blog / Vlog; project entries appear on Projects and Blog / Vlog; other entries appear only on Blog / Vlog. Drafts are excluded from all public views. Source observations are retained as private editorial notes.

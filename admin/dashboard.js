@@ -1,4 +1,5 @@
 const $=id=>document.getElementById(id);let state={};
+$('post-placement').closest('label').insertAdjacentHTML('afterend','<p class="muted">Featured published videos also rotate in the full-screen home-page showcase every 15 seconds. Facebook controls autoplay availability; visitors can always use the original video link.</p>');
 $('seo-image').type='text';$('seo-image').placeholder='/assets/images/projects/photo.jpg or https://…';
 document.querySelector('aside').insertAdjacentHTML('beforeend','<p class="small">Password-protected admin session</p><button id="sign-out" type="button">Sign out</button>');
 $('sign-out').onclick=task(async()=>{await api('/api/logout','POST');location.replace('/admin/login.html');});

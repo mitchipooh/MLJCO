@@ -156,6 +156,7 @@ function getBaseShell({ title, activePage, bodyHtml }) {
       rel="stylesheet"
     />
     <link rel="stylesheet" href="assets/css/styles.css" />
+    <link rel="stylesheet" href="assets/css/hero.css" />
     <link rel="icon" href="assets/images/brand/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" href="assets/images/brand/favicon.png" sizes="256x256" />
     <link rel="apple-touch-icon" href="assets/images/brand/apple-touch-icon.png" />
@@ -189,6 +190,7 @@ function getBaseShell({ title, activePage, bodyHtml }) {
     </footer>
 
     <script src="assets/js/site.js"></script>
+    <script src="assets/js/hero.js"></script>
   </body>
 </html>`;
 }

@@ -1,0 +1,8 @@
+const fs=require('fs');const path=require('path');const file=path.join(__dirname,'data','pages.json');const pages=JSON.parse(fs.readFileSync(file,'utf8'));
+pages.index.sections[0].html=`<section class="cinema-hero" aria-label="M.J.CO Limited project video showcase">
+<div class="hero-stage" aria-hidden="true"></div><!-- HERO_SLIDES -->
+<div class="hero-shade"></div>
+<div class="container cinema-content"><span class="kicker">M.J.CO LIMITED · TRINIDAD &amp; TOBAGO</span><h1>From the ground up.<br>Built around you.</h1><p>Construction, renovations and maintenance for homes, businesses and industrial spaces. Practical expertise. Quality workmanship. A team you can depend on.</p><div class="cinema-actions"><a class="btn btn-primary" href="request-quote.html">Let’s Build Your Next Project</a><a class="hero-project-link" href="projects.html">Explore Our Work ↗</a></div></div>
+<div class="container cinema-bottom"><a class="scroll-cue" href="#our-work">Scroll to discover ↓</a><div class="hero-now"><span>ON SITE WITH M.J.CO</span><strong data-hero-caption>Our projects in motion</strong><a data-hero-original href="projects.html" target="_blank" rel="noopener">Watch original ↗</a></div><div class="hero-controls"><button data-hero-prev type="button" aria-label="Previous project video">←</button><button data-hero-pause type="button" aria-label="Pause videos and rotation">Pause</button><button data-hero-next type="button" aria-label="Next project video">→</button><span data-hero-count aria-live="polite">1 / 3</span></div></div>
+</section>`;
+pages.index.sections[0].label='Full-screen video introduction';fs.writeFileSync(file,JSON.stringify(pages,null,2));console.log('Updated editable home-page video hero.');
