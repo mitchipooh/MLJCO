@@ -14,6 +14,9 @@
 .project-story { display:flex; flex-direction:column; scroll-margin-top:110px; }
 .post-cover-link { display:block; margin-bottom:20px; }
 .post-cover { width:100%; height:260px; object-fit:cover; object-position:center; border-radius:calc(var(--radius) * .65); }
+.gallery-photo-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; }
+.gallery-photo { width:100%; height:360px; object-fit:cover; border-radius:10px; }
+@media(max-width:640px){.gallery-photo-grid{grid-template-columns:1fr}.gallery-photo{height:320px}}
 .project-story h2 { font-size:1.65rem; line-height:1.2; }
 .project-story small { color:var(--muted); text-transform:uppercase; letter-spacing:.08em; }
 .story-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:auto; padding-top:14px; }
