@@ -1,10 +1,34 @@
 {
-  "index": {"title":"M.J.CO Limited | Construction & Gravel Enquiries Trinidad","description":"Construction, renovations, roofing, civil works and steel fabrication in Trinidad and Tobago. Ask M.J.CO Limited about gravel and 1/2 x 1/2 washed gravel."},
-  "services": {"title":"Construction, Renovations & Gravel | M.J.CO Trinidad","description":"Explore general construction, civil works, roofing, steel fabrication, property maintenance and gravel enquiries, including 1/2 x 1/2 washed gravel."},
-  "about": {"title":"About M.J.CO Limited | Building Contractor Chaguanas","description":"Meet M.J.CO Limited, a general construction and maintenance company in Longdenville, Chaguanas, serving residential, commercial and industrial projects."},
-  "projects": {"title":"Construction & Renovation Projects Trinidad | M.J.CO","description":"See M.J.CO Limited project photos and videos: backyard renovations, pool surrounds, excavation, groundworks, steel framing and construction in Trinidad."},
-  "safety-quality": {"title":"Construction Safety & Quality Trinidad | M.J.CO Limited","description":"Explore M.J.CO Limited's approach to construction safety, quality workmanship, risk assessments and safe project execution in Trinidad and Tobago."},
-  "request-quote": {"title":"Request a Construction or Gravel Quote | M.J.CO Trinidad","description":"Request a quote for construction, renovations, roofing, civil works or gravel. Specify quantities and sizes, including 1/2 x 1/2 washed gravel, for enquiries."},
-  "contact": {"title":"Contact M.J.CO Limited | Contractor Chaguanas, Trinidad","description":"Contact M.J.CO Limited in Longdenville, Chaguanas, for construction, renovation, maintenance and gravel enquiries in Trinidad and Tobago."},
-  "journal": {"title":"Construction Videos & Project Updates | M.J.CO Trinidad","description":"Watch M.J.CO Limited project videos and explore construction updates, backyard transformations, groundworks, remodeling and steel framing in Trinidad."}
+  "index": {
+    "title": "M.J.CO Limited | Construction & Gravel Enquiries Trinidad",
+    "description": "Construction, renovations, roofing, civil works and steel fabrication in Trinidad and Tobago. Ask M.J.CO Limited about gravel and 1/2 x 1/2 washed gravel."
+  },
+  "services": {
+    "title": "Construction & Property Maintenance Trinidad | M.J.CO",
+    "description": "Construction, property maintenance, electrical work, plumbing, power washing, 3-ton truck transport and gravel enquiries in Trinidad and Tobago."
+  },
+  "about": {
+    "title": "About M.J.CO Limited | Building Contractor Chaguanas",
+    "description": "Meet M.J.CO Limited, a general construction and maintenance company in Longdenville, Chaguanas, serving residential, commercial and industrial projects."
+  },
+  "projects": {
+    "title": "Construction & Renovation Projects Trinidad | M.J.CO",
+    "description": "See M.J.CO Limited project photos and videos: backyard renovations, pool surrounds, excavation, groundworks, steel framing and construction in Trinidad."
+  },
+  "safety-quality": {
+    "title": "Construction Safety & Quality Trinidad | M.J.CO Limited",
+    "description": "Explore M.J.CO Limited's approach to construction safety, quality workmanship, risk assessments and safe project execution in Trinidad and Tobago."
+  },
+  "request-quote": {
+    "title": "Request a Construction or Gravel Quote | M.J.CO Trinidad",
+    "description": "Request a quote for construction, renovations, roofing, civil works or gravel. Specify quantities and sizes, including 1/2 x 1/2 washed gravel, for enquiries."
+  },
+  "contact": {
+    "title": "Contact M.J.CO Limited | Contractor Chaguanas, Trinidad",
+    "description": "Contact M.J.CO Limited in Longdenville, Chaguanas, for construction, renovation, maintenance and gravel enquiries in Trinidad and Tobago."
+  },
+  "journal": {
+    "title": "Construction Videos & Project Updates | M.J.CO Trinidad",
+    "description": "Watch M.J.CO Limited project videos and explore construction updates, backyard transformations, groundworks, remodeling and steel framing in Trinidad."
+  }
 }
