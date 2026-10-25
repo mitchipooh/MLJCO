@@ -1,0 +1,35 @@
+// Public-facing company facts only. The original profile and private contacts are not included.
+const fs=require('fs');const path=require('path');const dir=path.join(__dirname,'data');
+const file=path.join(dir,'pages.json');const pages=JSON.parse(fs.readFileSync(file,'utf8'));
+const esc=s=>s.replaceAll('&','&amp;');
+function upsert(key,section,index){const items=pages[key].sections;const found=items.findIndex(s=>s.id===section.id);if(found>=0)items[found]=section;else items.splice(index,0,section);}
+upsert('about',{id:'about-section-1',label:'About Intro',html:'<section class="page-hero"><div class="container"><span class="kicker">Established in 2006</span><h1>Construction &amp; Maintenance Built on Experience</h1><p>M.J.CO Limited is a general contractor and maintenance company based in Trinidad and Tobago. Since 2006, the company has undertaken industrial, commercial and residential projects, including building works, renovations and property maintenance.</p></div></section>'},0);
+upsert('about',{id:'about-section-3',label:'Our Mission & Commitment',html:'<section class="section"><div class="container grid-2"><article class="card"><h2>Our Mission</h2><p>To provide quality construction services at fair, competitive prices, with professionalism, integrity, honesty and fairness in our relationships with customers, suppliers and subcontractors.</p></article><article class="card"><h2>Our Commitment</h2><p>We aim to build a sustainable business that delivers quality work at reasonable prices and creates ongoing employment opportunities.</p><p>Our services extend from site analysis and feasibility studies to project delivery, maintenance and specialist support.</p><a class="btn btn-outline" href="services.html">Explore Our Services</a></article></div></section>'},2);
+const services=[
+  ['Landscaping & Lawn Maintenance','Landscaping, lawn care and property upkeep for homes and commercial premises.'],
+  ['Janitorial & Drain Maintenance','Janitorial services and maintenance of drains and catch pits.'],
+  ['Pest & Bird Control','Pigeon netting, spikes and gelling; rodent stations; mosquito spraying; and treatment for ants, rats and flies.'],
+  ['Stainless-steel Piping & Argon Welding','Piping, stainless-steel fabrication, argon welding and steel structures for industrial and commercial projects.'],
+  ['Electrical & Instrumentation Systems','Installation of electrical and instrumentation systems for commercial and residential applications.'],
+  ['Retaining Walls, Roads & Car Parks','Retaining walls, box drains, road and car-park paving, container-park slabs and related civil works.'],
+  ['Site Analysis & Feasibility Studies','Site analysis, feasibility studies and planning support through to construction project delivery.'],
+  ['Catering for Company Functions','Lunches, dinners, tea plates, snack boxes and juices for company functions and events.']
+];
+upsert('services',{id:'services-specialist-profile',label:'Additional Company Services',html:`<section class="section"><div class="container"><span class="kicker">Specialist &amp; Support Services</span><h2>More Ways We Support Your Business</h2><div class="grid-3">${services.map(([name,description])=>`<article class="card"><h3>${esc(name)}</h3><p>${esc(description)}</p></article>`).join('')}</div><p><a class="btn btn-primary" href="request-quote.html">Discuss Your Requirements</a></p></div></section>`},3);
+const jobs=[
+ ['2011–2015','ArcelorMittal','Processing billets and scrap material for furnace feed.'],
+ ['2012–2016','S.M. Jaleel & Co. Ltd','Construction and maintenance covering plumbing, electrical work, welding, office renovations and masonry; warehouse floor construction, PVC and tile ceilings, and relocation of warehouse racking.'],
+ ['2016–2018','Bermudez Company Ltd','General construction and maintenance, plumbing, electrical work, welding, office renovations, masonry, ceiling installations, pigeon netting and spikes.'],
+ ['2016–2023','Holiday Snacks Limited','Construction and maintenance, plumbing, electrical work, welding, office renovations, masonry, PVC and tile ceilings, and relocation of warehouse racking.'],
+ ['2018–2024','Associated Brand Limited','Construction and maintenance, office renovations, plumbing, electrical work, masonry, painting, ceiling installations, door-closer work, steel structures and stainless-steel piping.']
+];
+upsert('projects',{id:'projects-section-1',label:'Projects Intro',html:'<section class="page-hero"><div class="container"><span class="kicker">Projects &amp; Gallery</span><h1>Our Work &amp; Project Experience</h1><p>Explore M.J.CO Limited project photos, videos and past construction and maintenance experience across industrial, commercial and residential work.</p></div></section>'},0);
+upsert('projects',{id:'projects-company-experience',label:'Past Project Experience',html:`<section class="section"><div class="container"><span class="kicker">Company Experience</span><h2>Selected Past Work</h2><p>Project history documented in our company profile. The dates below describe past assignments.</p><div class="grid-2">${jobs.map(([dates,client,scope])=>`<article class="card"><span class="kicker">${dates}</span><h3>${esc(client)}</h3><p>${esc(scope)}</p></article>`).join('')}</div><div class="card" style="margin-top:24px"><h3>Additional Industrial &amp; Event Support</h3><p>Our documented experience also includes steel roof fabrication, plant and warehouse upgrades, car-park paving, container-park slabs, door repairs, pest-control works and drain maintenance.</p><p>The company profile also records catering assignments for the Adult Medical Clinic, UWI and T&amp;TEC, including lunches, dinners and snack boxes for events.</p></div></div></section>`},1);
+for(const section of pages['request-quote'].sections){if(!section.html.includes('name="service"'))continue;for(const [name]of services){const option=`<option>${esc(name)}</option>`;if(!section.html.includes(option))section.html=section.html.replace('</select>',option+'</select>');}}
+fs.writeFileSync(file,JSON.stringify(pages,null,2));
+const seoFile=path.join(dir,'seo-defaults.json');const seo=JSON.parse(fs.readFileSync(seoFile,'utf8'));
+seo.about.description='Established in 2006, M.J.CO Limited undertakes general construction, renovations and maintenance for industrial, commercial and residential projects in Trinidad.';
+seo.projects.description='Explore M.J.CO Limited project photos, videos and documented past construction, industrial maintenance, warehouse renovation and fabrication experience.';
+fs.writeFileSync(seoFile,JSON.stringify(seo,null,2)+'\n');
+const settingsFile=path.join(dir,'management.json');if(fs.existsSync(settingsFile)){const settings=JSON.parse(fs.readFileSync(settingsFile,'utf8'));for(const key of ['about','projects'])settings.seo[key]={...settings.seo[key],...seo[key]};fs.writeFileSync(settingsFile,JSON.stringify(settings,null,2));}
+console.log('Added public company history, specialist services and past jobs; no private profile details copied.');
