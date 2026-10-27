@@ -12,6 +12,7 @@ test('management persistence, publication, SEO, theme, analytics and access cont
   async function request(url,method='GET',body,headers={}){return fetch(base+url,{method,headers:{'Content-Type':'application/json',Cookie:sessionCookie,...headers},body:body?JSON.stringify(body):undefined,redirect:'manual'});}
   try{
     assert.equal((await request('/api/manage')).status,401);
+    assert.equal((await request('/api/manage/gallery','PUT',{photos:[]})).status,401);
     assert.equal((await request('/admin/dashboard.html')).status,302);
     assert.equal((await request('/ADMIN/index.html')).status,302);
     assert.equal((await request('/api/login','POST',{password:'anything'})).status,503);
@@ -20,6 +21,17 @@ test('management persistence, publication, SEO, theme, analytics and access cont
     sessionCookie=signIn.headers.get('set-cookie').split(';')[0];
     assert.ok(signIn.headers.get('set-cookie').includes('HttpOnly'));assert.ok(signIn.headers.get('set-cookie').includes('SameSite=Strict'));
     let r=await request('/api/manage');assert.equal(r.status,200);const initial=await r.json();
+    assert.ok(initial.gallery.length>=6);
+    const photos=[{src:'/assets/images/gallery/materials-yard.jpg',alt:'Yard & materials'}];
+    assert.equal((await request('/api/manage/gallery','PUT',{photos:[{src:'javascript:alert(1)',alt:'unsafe'}]})).status,400);
+    assert.equal((await request('/api/manage/gallery','PUT',{photos})).status,200);
+    let galleryPage=await(await request('/projects.html')).text();
+    assert.ok(galleryPage.indexOf('project-slideshow')<galleryPage.indexOf('page-hero'));
+    assert.ok(galleryPage.includes('alt="Yard &amp; materials"'));
+    assert.deepEqual((await(await request('/api/manage')).json()).gallery,photos);
+    assert.equal((await request('/api/manage/gallery','PUT',{photos:[]})).status,200);
+    assert.ok(!(await(await request('/projects.html')).text()).includes('project-slideshow'));
+    await request('/api/manage/gallery','PUT',{photos:initial.gallery});
     r=await request('/api/manage/posts','POST',{title:'Draft <unsafe>',body:'<script>alert(1)</script>',type:'blog',status:'draft'});assert.equal(r.status,200);const post=await r.json();
     assert.ok(!(await(await request('/journal')).text()).includes('Draft &lt;unsafe&gt;'));
     r=await request('/api/manage/posts','POST',{...post,status:'published',placement:'featured',video:'https://www.facebook.com/watch/?v=247076168015558',source:'https://www.facebook.com/share/v/17gvBKJKmD/',cover:'/assets/images/projects/example.jpg',coverAlt:'Steel & roof framing'});assert.equal(r.status,200);

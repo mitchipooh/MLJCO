@@ -16,7 +16,7 @@ module.exports = (app, { rootDir, getBaseShell }) => {
   fs.mkdirSync(dataDir, { recursive: true });
   const file = path.join(dataDir, 'management.json');
   const trafficFile = path.join(dataDir, 'traffic.json');
-  const read = () => fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : structuredClone(defaults);
+  const read = () => { const data=fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : structuredClone(defaults); data.gallery ??= structuredClone(require('./data/gallery-defaults.json')); return data; };
   const write = data => { fs.writeFileSync(file + '.tmp', JSON.stringify(data, null, 2)); fs.renameSync(file + '.tmp', file); };
   const traffic = fs.existsSync(trafficFile) ? JSON.parse(fs.readFileSync(trafficFile, 'utf8')) : {};
   let dirty = false;
@@ -35,6 +35,11 @@ module.exports = (app, { rootDir, getBaseShell }) => {
     if (seo.canonical && !/^https?:\/\//i.test(seo.canonical)) return res.status(400).json({error:'Canonical URL must start with https:// or http://'});
     if (safeCover(seo.image) === null) return res.status(400).json({error:'Sharing image must be a local image path or an https:// URL.'});
     const data = read(); data.seo[key] = seo; write(data); res.json({ok:true});
+  });
+  app.put('/api/manage/gallery', (req,res) => {
+    const photos=req.body.photos;
+    if(!Array.isArray(photos)||photos.length>100||photos.some(p=>!p||typeof p.src!=='string'||!p.src||!safeCover(p.src)||typeof p.alt!=='string'||p.alt.length>300))return res.status(400).json({error:'Use up to 100 valid image URLs with descriptions under 300 characters.'});
+    const data=read();data.gallery=photos.map(p=>({src:safeCover(p.src),alt:p.alt.trim()}));write(data);res.json({ok:true});
   });
   app.put('/api/manage/theme', (req,res) => {
     const theme = req.body;
@@ -107,7 +112,10 @@ module.exports = (app, { rootDir, getBaseShell }) => {
         return section;
       });
       if(!inserted)html=html.replace('</main>',updates+'</main>');
-    } else if(key==='projects')html=html.replace('</main>',highlights(key)+'</main>');
+    } else if(key==='projects'){
+      html=html.replace(/<main\b[^>]*>/, opening=>opening+require('./gallery')(read().gallery));
+      html=html.replace('</main>',highlights(key)+'</main>');
+    }
     count(req,key);res.send(enhance(html,key,pages[key].title,req));
   });
 };
