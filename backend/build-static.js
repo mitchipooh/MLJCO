@@ -1,14 +1,14 @@
 // Export public HTML only. Admin pages, API code and private data are never published.
 const fs=require('fs');const path=require('path');const {spawn}=require('child_process');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'dist');
-const site=new URL(process.env.SITE_URL || 'https://mitchipooh.github.io/MLJCO/');
+const site=new URL(process.env.SITE_URL || 'https://mjcogroup.com/');
 if(!site.pathname.endsWith('/'))site.pathname+='/';
 const port=Number(process.env.EXPORT_PORT || 5599),origin=`http://127.0.0.1:${port}`;
 const server=spawn(process.execPath,['backend/server.js'],{cwd:root,env:{...process.env,HOST:'127.0.0.1',PORT:String(port)},stdio:['ignore','pipe','pipe']});
 let failure='';server.stderr.on('data',chunk=>failure+=chunk);
 async function main(){
   let ready=false;
-  for(let i=0;i<100;i++){try{if((await fetch(origin)).ok){ready=true;break;}}catch{}if(server.exitCode!==null)throw Error(failure || 'Export server exited');await new Promise(r=>setTimeout(r,100));}
+  for(let i=0;i<300;i++){try{if((await fetch(origin)).ok){ready=true;break;}}catch{}if(server.exitCode!==null)throw Error(failure || 'Export server exited');await new Promise(r=>setTimeout(r,100));}
   if(!ready)throw Error('Export server did not start');
   fs.mkdirSync(out,{recursive:true});
   const keys=['index','about','services','projects','safety-quality','request-quote','contact','journal'];
@@ -16,6 +16,7 @@ async function main(){
     const response=await fetch(origin+(key==='journal'?'/journal':`/${key}.html`));if(!response.ok)throw Error('Unable to export '+key);
     let html=await response.text();
     html=html.replaceAll(origin+'/',site.href).replace(/(href|src)="\/(?!\/)/g,`$1="${site.pathname}`);
+    html=html.replaceAll('https://mitchipooh.github.io/MLJCO/',site.href);
     html=html.replace(/href="journal"/g,'href="journal.html"').replaceAll(`${site.pathname}journal#`,`${site.pathname}journal.html#`).replaceAll(`href="${site.pathname}admin"`,`href="${site.pathname}admin.html"`);
     const canonical=new URL(key==='index'?'':key+'.html',site).href;
     if(!html.includes('rel="canonical"'))html=html.replace('</head>',`<link rel="canonical" href="${canonical}"><meta property="og:url" content="${canonical}"></head>`);

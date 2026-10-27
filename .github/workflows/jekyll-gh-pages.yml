@@ -44,7 +44,7 @@ jobs:
       - name: Export public HTML and photos
         run: npm run build:static
         env:
-          SITE_URL: https://mitchipooh.github.io/MLJCO/
+          SITE_URL: https://mjcogroup.com/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
