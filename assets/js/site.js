@@ -21,6 +21,12 @@ if (toggle && nav) {
 }
 
 const yearNode = document.querySelector("[data-year]");
+const serviceChoice = document.querySelector('select[name="service"]');
+if (serviceChoice) {
+  const requestType = new URLSearchParams(location.search).get('service');
+  if (requestType === 'catering') serviceChoice.value = 'Catering Services';
+  if (requestType === 'equipment') serviceChoice.value = 'Equipment & Rental Enquiry';
+}
 if (yearNode) {
   yearNode.textContent = String(new Date().getFullYear());
 }
