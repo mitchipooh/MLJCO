@@ -1,0 +1,20 @@
+const {test}=require('node:test');
+const assert=require('node:assert/strict');
+const vm=require('node:vm');
+const fs=require('node:fs');
+test('gallery advances every five seconds and Play resumes with a focused control',()=>{
+  let tick,delay;
+  const make=()=>({attrs:{},classList:{toggle(){}},setAttribute(k,v){this.attrs[k]=v;}});
+  const slides=[make(),make(),make()],dots=[make(),make(),make()];
+  const pause=make(),prev=make(),next=make(),listeners={};
+  const gallery={querySelectorAll:s=>s==='.project-slide'?slides:dots,querySelector:s=>({'[data-gallery-pause]':pause,'[data-gallery-prev]':prev,'[data-gallery-next]':next})[s],addEventListener(){},contains:()=>true};
+  const document={hidden:false,activeElement:pause,querySelectorAll:()=>[gallery],addEventListener:(key,fn)=>listeners[key]=fn};
+  vm.runInNewContext(fs.readFileSync(require.resolve('../assets/js/gallery.js'),'utf8'),{document,setInterval:(fn,ms)=>{tick=fn;delay=ms;return 1;},clearInterval:()=>{tick=null;}});
+  assert.equal(delay,5000);assert.equal(slides[0].attrs['aria-hidden'],'false');
+  tick();assert.equal(slides[1].attrs['aria-hidden'],'false');
+  pause.onclick();assert.equal(tick,null);assert.equal(pause.attrs['aria-label'],'Play slideshow');
+  pause.onclick();assert.equal(typeof tick,'function');tick();assert.equal(slides[2].attrs['aria-hidden'],'false');
+  tick();assert.equal(slides[0].attrs['aria-hidden'],'false');
+  document.hidden=true;listeners.visibilitychange();assert.equal(tick,null);
+  document.hidden=false;listeners.visibilitychange();assert.equal(typeof tick,'function');
+});
