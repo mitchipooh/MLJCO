@@ -16,6 +16,7 @@ async function main(){
     const response=await fetch(origin+(key==='journal'?'/journal':`/${key}.html`));if(!response.ok)throw Error('Unable to export '+key);
     let html=await response.text();
     html=html.replaceAll(origin+'/',site.href).replace(/(href|src)="\/(?!\/)/g,`$1="${site.pathname}`);
+    html=html.replace(/((?:href|src)=")\/MLJCO\//g,`$1${site.pathname}`);
     html=html.replaceAll('https://mitchipooh.github.io/MLJCO/',site.href);
     html=html.replace(/href="journal"/g,'href="journal.html"').replaceAll(`${site.pathname}journal#`,`${site.pathname}journal.html#`).replaceAll(`href="${site.pathname}admin"`,`href="${site.pathname}admin.html"`);
     const canonical=new URL(key==='index'?'':key+'.html',site).href;
