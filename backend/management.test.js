@@ -3,7 +3,7 @@ const assert=require('node:assert/strict');
 const express=require('express');
 const fs=require('fs');const os=require('os');const path=require('path');
 test('management persistence, publication, SEO, theme, analytics and access control',async()=>{
-  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'mljco-test-'));process.env.CMS_DATA_DIR=dir;
+  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'mljco-test-'));process.env.CMS_DATA_DIR=dir;fs.copyFileSync(path.join(__dirname,'data','pages.json'),path.join(dir,'pages.json'));
   const app=express();app.use(express.json());
   require('./management')(app,{rootDir:path.resolve(__dirname,'..'),getBaseShell:({title,bodyHtml})=>`<html><head><title>${title}</title></head><body>${bodyHtml}</body></html>`});
   const server=app.listen(0,'127.0.0.1');await new Promise(resolve=>server.once('listening',resolve));

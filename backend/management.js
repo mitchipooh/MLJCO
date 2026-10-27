@@ -28,7 +28,7 @@ module.exports = (app, { rootDir, getBaseShell }) => {
   app.get('/api/manage', (req,res) => res.json(read()));
   app.put('/api/manage/seo/:key', (req,res) => {
     const key = req.params.key;
-    const pages = JSON.parse(fs.readFileSync(path.join(__dirname,'data','pages.json')));
+    const pages = JSON.parse(fs.readFileSync(path.join(dataDir,'pages.json')));
     if (!Object.hasOwn(pages,key) && key !== 'journal') return res.status(404).json({error:'Page not found'});
     const seo = {};
     for (const field of ['title','description','canonical','image']) seo[field] = String(req.body[field] || '').slice(0,2000);
@@ -101,7 +101,7 @@ module.exports = (app, { rootDir, getBaseShell }) => {
   });
   app.get(['/', /^\/[a-z0-9-]+\.html$/i], (req,res,next) => {
     const key=req.path==='/'?'index':req.path.slice(1,-5);
-    const pages=JSON.parse(fs.readFileSync(path.join(__dirname,'data','pages.json')));
+    const pages=JSON.parse(fs.readFileSync(path.join(dataDir,'pages.json')));
     if(!Object.hasOwn(pages,key))return next();
     let html=fs.readFileSync(path.join(rootDir,key+'.html'),'utf8');
     if(key==='index')html=html.replace('<!-- HERO_SLIDES -->',require('./hero')(read().posts));

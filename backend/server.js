@@ -8,10 +8,12 @@ const port = process.env.PORT || 5500;
 const host = process.env.HOST || "127.0.0.1";
 
 const rootDir = path.resolve(__dirname, "..");
-const dataFile = path.join(__dirname, "data", "pages.json");
-const uploadsDir = path.join(__dirname, "uploads");
+const cmsDataDir = process.env.CMS_DATA_DIR || path.join(__dirname, "data");
+const dataFile = path.join(cmsDataDir, "pages.json");
+const uploadsDir = process.env.CMS_UPLOADS_DIR || path.join(__dirname, "uploads");
 fs.mkdirSync(uploadsDir, { recursive: true });
 
+if (process.env.TRUST_PROXY === "1") app.set("trust proxy", 1);
 app.use(express.json({ limit: "2mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(uploadsDir));
