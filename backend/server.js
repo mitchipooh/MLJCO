@@ -157,6 +157,7 @@ function getBaseShell({ title, activePage, bodyHtml }) {
     />
     <link rel="stylesheet" href="assets/css/styles.css" />
     <link rel="stylesheet" href="assets/css/hero.css" />
+    <link rel="stylesheet" href="assets/css/mobile.css" />
     <link rel="icon" href="assets/images/brand/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" href="assets/images/brand/favicon.png" sizes="256x256" />
     <link rel="apple-touch-icon" href="assets/images/brand/apple-touch-icon.png" />
@@ -180,8 +181,8 @@ function getBaseShell({ title, activePage, bodyHtml }) {
           Lot #6 Hill Top Palms, Hill Top Drive, Ravine Sable, Longdenville, Chaguanas, Trinidad & Tobago
         </div>
         <div>
-          Phone: 789-4949 / 763-8489<br />
-          Email: mjcolimited765@gmail.com<br />
+          Phone: <a href="tel:+18687894949">789-4949</a> / <a href="tel:+18687638489">763-8489</a><br />
+          Email: <a href="mailto:mjcolimited765@gmail.com">mjcolimited765@gmail.com</a><br />
           VAT No.: 385045<br />
           <small>Copyright <span data-year></span> M.J.CO Limited</small>
           <br /><a href="/admin" class="admin-link">Website Admin</a>

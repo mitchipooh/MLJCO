@@ -2,9 +2,22 @@ const toggle = document.querySelector(".nav-toggle");
 const nav = document.querySelector(".site-nav");
 
 if (toggle && nav) {
+  nav.id = 'site-navigation';
+  toggle.setAttribute('aria-controls', nav.id);
+  const setMenu = open => {
+    nav.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+    toggle.textContent = open ? 'Close ✕' : 'Menu ☰';
+  };
+  setMenu(false);
   toggle.addEventListener("click", () => {
-    nav.classList.toggle("open");
+    setMenu(!nav.classList.contains('open'));
   });
+  nav.addEventListener('click', event => { if (event.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown', event => { if (event.key === 'Escape' && nav.classList.contains('open')) { setMenu(false); toggle.focus(); } });
+  document.addEventListener('click', event => { if (!event.target.closest('.nav-wrap')) setMenu(false); });
+  matchMedia('(min-width: 941px)').addEventListener('change', () => setMenu(false));
 }
 
 const yearNode = document.querySelector("[data-year]");
